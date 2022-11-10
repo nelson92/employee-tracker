@@ -1,19 +1,86 @@
-// set up series of prompts for user in terminal
-
 const inquirer = require('inquirer');
+const { db } = require('./config/connection')
+// const mysql = require('mysql2');
+// const express = require('express');
+// const app = express();
+// set up series of prompts for user in terminal
+// const query = require('./db/query');
+// const { allowedNodeEnvironmentFlags } = require('process');
+// const PORT = process.env.PORT || 3001;
 // require the query.sql file? 
 
-let startPrompt = [
+function startPrompt(){
+    inquirer.prompt([
     {
         type: 'list',
         message: 'What would you like to do?',
         name: 'firstChoice',
-        choices: ['View all employees', 'Add employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Deparments', 'Add Department']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Deparments', 'Add Department']
+        
+        }
+         
 
+    
+]).then((responses) => {
+    switch(responses.firstChoice){
+        case 'View All Employees':
+        viewAllEmployees();
+        break;
+        case 'Add Employee':
+        addEmployee();
+        break;
+        case 'Update Employee Role':
+        updateEmployeeRole();
+        break;
+        case 'View All Roles':
+        viewRoles();
+        break;
+        case 'Add Role':
+        addRole();
+        break;
+        case 'View All Departments':
+        viewAllDepartments();
+        break;
+        case 'Add Department':
+        addDepartment;
+        break;
+        case 'Finished':
+        console.log('goodbye');
+        break;
     }
-];
+} )
+};
 
-// if one of the following 3 is chosen: view all employees, view all roles, view all departments is chosen THEN it needs to READ/GET and display that data in a table in the terminal
+function viewAllEmployees () {
+    const allEmployees = `SELECT employee.first_name, employee.last_name, employee_role.title, department.department_name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN department ON department.id = employee_role.department_id LEFT JOIN employee e on employee.manager_id = e.id;`
+
+    db.query(allEmployees, function (err, results) {
+        if (err) throw err;
+        console.table(results);
+        startPrompt();
+    })
+};
+
+function viewRoles () {
+    const allRoles = `SELECT role.id, role.title, department.name AS department, role.salary FROM role JOIN department ON role.department_id = department.id`
+
+    db.query(allRoles, function (err, results){
+        if(err) throw err;
+        console.table(results);
+        startPrompt();
+    })
+};
+
+function viewAllDepartments() {
+    const allDepartments = db.query(`SELECT * FROM department`)
+        console.table(allDepartments);
+        startPrompt();
+};
+
+
+
+// switch statement - 
+// if one of the following 3 is chosen: view all employees, view all roles, view all departments is chosen THEN it needs to READ/GET and display that data in a table in the terminal - using console.table
 
 
 
@@ -33,3 +100,4 @@ let startPrompt = [
 
 
 
+startPrompt();

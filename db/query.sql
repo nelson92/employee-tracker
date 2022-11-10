@@ -1,0 +1,2 @@
+-- class with constructor
+-- function with promise

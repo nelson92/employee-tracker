@@ -52,7 +52,7 @@ function startPrompt(){
 };
 
 function viewAllEmployees () {
-    const allEmployees = `SELECT employee.first_name, employee.last_name, employee_role.title, department.department_name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN department ON department.id = employee_role.department_id LEFT JOIN employee e on employee.manager_id = e.id;`
+    const allEmployees = `SELECT employees.first_name, employees.last_name, employee_role.title, departments.department_name, CONCAT(employees.first_name, ' ' ,employees.last_name) AS Manager FROM employees INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN departments ON department.id = employee_role.department_id LEFT JOIN employees on employee.manager_id = employee.id;`
 
     db.query(allEmployees, function (err, results) {
         if (err) throw err;
@@ -62,7 +62,7 @@ function viewAllEmployees () {
 };
 
 function viewRoles () {
-    const allRoles = `SELECT role.id, role.title, department.name AS department, role.salary FROM role JOIN department ON role.department_id = department.id`
+    const allRoles = `SELECT role.id, role.title, department.name AS departments, role.salary FROM roles JOIN departments ON roles.department_id = department.id`
 
     db.query(allRoles, function (err, results){
         if(err) throw err;
@@ -72,7 +72,7 @@ function viewRoles () {
 };
 
 function viewAllDepartments() {
-    const allDepartments = db.query(`SELECT * FROM department`)
+    const allDepartments = db.query(`SELECT * FROM departments`)
         console.table(allDepartments);
         startPrompt();
 };

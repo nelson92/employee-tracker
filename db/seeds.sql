@@ -1,13 +1,13 @@
 -- data to fill the 2 tables in the schema file
 
-INSERT INTO department (name)
+INSERT INTO departments (name)
 VALUES ("Sales"),
        ("Engineering"),
        ("IT"),
        ("HR")
        ("Marketing")
 
-INSERT INTO role (title, salary, department_id)
+INSERT INTO roles (title, salary, department_id)
 VALUES ("Inside Sales Rep", 75,000.50, 1),
        ("Web Developer", 105,000.25, 2),
        ("Lead Engineer", 125,000, 2)
@@ -15,7 +15,7 @@ VALUES ("Inside Sales Rep", 75,000.50, 1),
        ("Human Resources Manager", 70,000.00, 4),
        ("Junior Digital Marketing Manager", 75,000.75, 5)
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
                      ("Bob", "Jones", 11)
                      ("Judy", "Smith", 12, 1)
                      ("Bill", "Johnson", 13)

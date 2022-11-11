@@ -3,7 +3,7 @@
 # Description
 This application runs by using the node index.js command in the terminal and will run through a series of prompts that will enable the user to display specific tables from a database about employees at a company. It uses Jest for all testing purposes and the Inquirer 8.2.4 package.
 
-Video link to a walkthrough of this application: https://app.castify.com/view/ba5bb412-383b-42cd-b19c-0d51ce5c3b08
+Video link to a walkthrough of this application: https://drive.google.com/file/d/1evcIOGZKLwW4QudrXvqbCgfz0Rz3QVYO/view?usp=sharing
 
 ## Table of Contents   
 * [Description](#description)

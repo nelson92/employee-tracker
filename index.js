@@ -15,7 +15,7 @@ function startPrompt(){
         type: 'list',
         message: 'What would you like to do?',
         name: 'firstChoice',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Deparments', 'Add Department']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
         
         }
          
@@ -47,12 +47,14 @@ function startPrompt(){
         case 'Finished':
         console.log('goodbye');
         break;
+        default: 
+        console.log("choice " + response.firstChoice + " is not working")
     }
 } )
 };
 
 function viewAllEmployees () {
-    const allEmployees = `SELECT employees.first_name, employees.last_name, employee_role.title, departments.department_name, CONCAT(employees.first_name, ' ' ,employees.last_name) AS Manager FROM employees INNER JOIN employee_role ON employee_role.id = employee.role_id INNER JOIN departments ON department.id = employee_role.department_id LEFT JOIN employees on employee.manager_id = employee.id;`
+    const allEmployees = `SELECT * from employees;`
 
     db.query(allEmployees, function (err, results) {
         if (err) throw err;
@@ -61,8 +63,10 @@ function viewAllEmployees () {
     })
 };
 
-function viewRoles () {
-    const allRoles = `SELECT role.id, role.title, department.name AS departments, role.salary FROM roles JOIN departments ON roles.department_id = department.id`
+function viewRoles() {
+    const allRoles = `SELECT * FROM roles;`
+    //  JOIN departments ON roles.department_id = department.id
+    // role.id, role.title, department.name AS departments, role.salary
 
     db.query(allRoles, function (err, results){
         if(err) throw err;
@@ -72,9 +76,12 @@ function viewRoles () {
 };
 
 function viewAllDepartments() {
-    const allDepartments = db.query(`SELECT * FROM departments`)
-        console.table(allDepartments);
+    db.query(`SELECT * FROM departments;`, function (err, results){
+        if(err) throw err;
+        console.table(results);
         startPrompt();
+    })
+        
 };
 
 

@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
-const { db } = require('./config/connection')
+// const Connection = require('mysql2/typings/mysql/lib/Connection');
+const { db } = require('./config/connection');
 // const mysql = require('mysql2');
 // const express = require('express');
 // const app = express();
@@ -15,7 +16,7 @@ function startPrompt(){
         type: 'list',
         message: 'What would you like to do?',
         name: 'firstChoice',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department']
+        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Finished']
         
         }
          
@@ -42,7 +43,7 @@ function startPrompt(){
         viewAllDepartments();
         break;
         case 'Add Department':
-        addDepartment;
+        addDepartment();
         break;
         case 'Finished':
         console.log('goodbye');
@@ -84,7 +85,35 @@ function viewAllDepartments() {
         
 };
 
-
+function addDepartment() {
+    inquirer
+        .prompt ([
+            {
+                name: 'departmentName',
+                type: 'input',
+                message: 'Enter the name of the new Department.'
+            },
+            {
+                name: 'departmentId',
+                type: 'input',
+                message: 'Enter the ID of the new Department.',
+            }
+        ])
+        .then
+        (function (response) {
+            db.query("INSERT INTO departments set ?",
+            {
+                id: response.departmentId,
+                name: response.departmentName
+            },
+                function(err) {
+                    if (err) throw err;
+                    console.log("New Department successfully");
+                startPrompt()
+                }
+            );
+        });
+};
 
 // switch statement - 
 // if one of the following 3 is chosen: view all employees, view all roles, view all departments is chosen THEN it needs to READ/GET and display that data in a table in the terminal - using console.table
